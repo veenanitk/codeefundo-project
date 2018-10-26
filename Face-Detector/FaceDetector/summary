@@ -12,6 +12,9 @@ To start the program you will have to run a file named zad2.py, which will requi
   * dlib
   * pygame
   * PyOpenGL
+  
+  you will also have to download the face allignment model from here : http://sourceforge.net/projects/dclib/files/dlib/v18.10/shape_predictor_68_face_landmarks.dat.bz2 
+  and unpack it to the main projecct directory.
 
 ##How to execute the code##
 Executable file : zad2.py (Face-Detector/FaceDetector/FaceSwap/zad2.py)
