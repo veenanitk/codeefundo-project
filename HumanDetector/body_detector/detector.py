@@ -1,3 +1,5 @@
+# veena
+
 import numpy as np
 from skimage.feature import corner_harris, corner_peaks 
 from skimage.transform import pyramid_gaussian
@@ -34,7 +36,7 @@ def sliding_window(image, window_size, step_size):
 def detector(filename):
     im = cv2.imread(filename)
     im = imutils.resize(im, width = min(400, im.shape[1]))
-    min_wdw_sz = (64, 128)
+    minimum_window_size = (64, 128)
     step_size = (10, 10)
     downscale = 1.25
 
@@ -47,10 +49,10 @@ def detector(filename):
 
     for im_scaled in pyramid_gaussian(im, downscale = downscale):
         #The list contains detections at the current scale
-        if im_scaled.shape[0] < min_wdw_sz[1] or im_scaled.shape[1] < min_wdw_sz[0]:
+        if im_scaled.shape[0] < minimum_window_size[1] or im_scaled.shape[1] < minimum_window_size[0]:
             break
-        for (x, y, im_window) in sliding_window(im_scaled, min_wdw_sz, step_size):
-            if im_window.shape[0] != min_wdw_sz[1] or im_window.shape[1] != min_wdw_sz[0]:
+        for (x, y, im_window) in sliding_window(im_scaled, minimum_window_size, step_size):
+            if im_window.shape[0] != minimum_window_size[1] or im_window.shape[1] != minimum_window_size[0]:
                 continue
             im_window = color.rgb2gray(im_window)
             fd = hog(im_window, orientations, pixels_per_cell, cells_per_block, visualize, normalize)
@@ -62,8 +64,8 @@ def detector(filename):
                 
                 if clf.decision_function(fd) > 0.5:
                     detections.append((int(x * (downscale**scale)), int(y * (downscale**scale)), clf.decision_function(fd), 
-                    int(min_wdw_sz[0] * (downscale**scale)),
-                    int(min_wdw_sz[1] * (downscale**scale))))
+                    int(minimum_window_size[0] * (downscale**scale)),
+                    int(minimum_window_size[1] * (downscale**scale))))
                  
 
             
